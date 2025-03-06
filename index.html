@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>大富翁游戏</title>
+    <style>
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+        .game-container {
+            display: flex;
+            max-width: 1200px;
+            margin: 0 auto;
+            gap: 20px;
+        }
+        .board {
+            flex: 2;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .game-map {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            gap: 2px;
+            margin: 20px 0;
+        }
+        .cell {
+            aspect-ratio: 1;
+            border: 1px solid #ccc;
+            padding: 5px;
+            text-align: center;
+            font-size: 12px;
+            position: relative;
+            background: white;
+            transition: transform 0.3s, background-color 0.3s;
+        }
+        .cell.player {
+            background: #e3f2fd;
+        }
+        .cell.owned {
+            border: 2px solid #4CAF50;
+        }
+        .player-info {
+            flex: 1;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .controls {
+            margin-top: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: #4CAF50;
+            color: white;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        .event-log {
+            margin-top: 20px;
+            padding: 10px;
+            background: #f9f9f9;
+            border-radius: 5px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .player-token {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            transition: all 0.5s ease-in-out;
+        }
+        .cell:hover {
+            transform: scale(1.05);
+        }
+        @keyframes diceRoll {
+            0% { transform: rotate(0deg); }
+            25% { transform: rotate(90deg); }
+            50% { transform: rotate(180deg); }
+            75% { transform: rotate(270deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .dice-animation {
+            animation: diceRoll 0.5s ease-in-out;
+        }
+        @keyframes highlight {
+            0% { background-color: rgba(255, 215, 0, 0.5); }
+            100% { background-color: white; }
+        }
+        .highlight {
+            animation: highlight 1s ease-out;
+        }
+        .money-animation {
+            position: absolute;
+            color: green;
+            font-weight: bold;
+            animation: floatUp 1s ease-out forwards;
+        }
+        @keyframes floatUp {
+            0% { 
+                transform: translateY(0);
+                opacity: 1;
+            }
+            100% { 
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <div class="board">
+            <h1>大富翁</h1>
+            <div class="game-map" id="gameMap"></div>
+            <div class="controls">
+                <button id="rollDice">掷骰子</button>
+                <button id="buyProperty">购买地产</button>
+                <button id="endTurn">结束回合</button>
+            </div>
+            <div class="event-log" id="eventLog"></div>
+        </div>
+        <div class="player-info" id="playerInfo">
+            <h2>玩家信息</h2>
+        </div>
+    </div>
+    <script src="monopoly.js"></script>
+</body>
+</html> 
